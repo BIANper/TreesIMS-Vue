@@ -203,7 +203,6 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           // 登录
-          // 注意 这里的演示没有传验证码
           this.login({
             username: this.formLogin.username,
             password: this.formLogin.password,

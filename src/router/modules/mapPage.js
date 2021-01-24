@@ -5,7 +5,7 @@ const _import = require('@/libs/util.import.' + process.env.NODE_ENV)
 
 
 export default {
-  path: '/demo',
+  path: '/map',
   name: 'demo-plugins',
   redirect: { name: 'page1' },
   component: layoutHeaderAside,
@@ -17,7 +17,7 @@ export default {
         title: '页面 1',
         auth: true
       },
-      component: _import('demo/page1')
+      component: _import('map/page1')
     },
     {
       path: 'page2',
@@ -26,16 +26,7 @@ export default {
         title: '页面 2',
         auth: true
       },
-      component: _import('demo/page2')
-    },
-    {
-      path: 'page3',
-      name: 'page3',
-      meta: {
-        title: '页面 3',
-        auth: true
-      },
-      component: _import('demo/page3')
+      component: _import('map/page2')
     },
   ]
 }

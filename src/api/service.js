@@ -1,5 +1,4 @@
 import axios from 'axios'
-import Adapter from 'axios-mock-adapter'
 import { get } from 'lodash'
 import { errorLog, errorCreate } from './tools'
 
@@ -85,10 +84,3 @@ function createRequestFunction (service) {
 // 用于真实网络请求的实例和请求方法
 export const service = createService()
 export const request = createRequestFunction(service)
-
-// 用于模拟网络请求的实例和请求方法
-export const serviceForMock = createService()
-export const requestForMock = createRequestFunction(serviceForMock)
-
-// 网络请求数据模拟工具
-export const mock = new Adapter(serviceForMock)

@@ -1,5 +1,6 @@
 import { uniqueId } from 'lodash'
-import demo from './modules/demo'
+import infoPage from './modules/infoPage'
+import mapPage from './modules/mapPage'
 
 /**
  * @description 给菜单数据补充上 path 字段
@@ -18,9 +19,9 @@ function supplementPath (menu) {
 
 export const menuHeader = supplementPath([
   { path: '/index', title: '首页', icon: 'home' },
-  demo
+  infoPage,mapPage
 ])
 
 export const menuAside = supplementPath([
-  demo
+  infoPage,mapPage
 ])
