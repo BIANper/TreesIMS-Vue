@@ -20,9 +20,11 @@
       </el-form-item>
     </el-form>
     <el-table
+      v-loading="loading"
       :data="tableData"
       :cell-style='cellStyle'
       :header-cell-style='headerCellStyle'
+      :max-height="fullHeight-230"
       stripe
       border
       highlight-current-row
@@ -160,6 +162,8 @@ export default {
   name: 'index',
   data() {
     return {
+      loading: true,
+      fullHeight: document.documentElement.clientHeight,
       searchData: {
         identifier: '',
         name: '',
@@ -182,11 +186,13 @@ export default {
 
     },
     getTableData() {
+      this.loading = true;
       const {pageNum, pageSize} = this.pageData;
       api.DATA_INFO_PAGE({pageNum, pageSize})
         .then(resp =>{
         this.tableData = resp.list;
-        this.pageData.total =  resp.total
+        this.pageData.total =  resp.total;
+        this.loading = false;
       })
         .catch(err =>{
         console.log(err);

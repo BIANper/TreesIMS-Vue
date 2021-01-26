@@ -28,7 +28,61 @@
             </div>
           </template>
           <template v-if="item.i === '1'">
-
+            <el-alert
+              title="这些树木需要关注："
+              :closable="false"
+              type="warning">
+            </el-alert>
+            <el-table
+              :cell-style='cellStyle'
+              :header-cell-style='headerCellStyle'
+              :data="warnData"
+              style="width: 100%">
+              <el-table-column
+                prop="identifier"
+                label="编号"
+                width="110">
+              </el-table-column>
+              <el-table-column
+                prop="nameZh"
+                label="名称"
+                width="80">
+              </el-table-column>
+              <el-table-column
+                prop="classes"
+                label="级别"
+                width="80"
+                :formatter="classesFormat">
+              </el-table-column>
+              <el-table-column
+                prop="growthStatus"
+                label="生长势"
+                width="80"
+                :formatter="statusFormat">
+              </el-table-column>
+              <el-table-column
+                prop="growthEnv"
+                label="生长环境"
+                width="80"
+                :formatter="envFormat">
+              </el-table-column>
+              <el-table-column
+                prop="description"
+                label="备注">
+              </el-table-column>
+              <el-table-column
+                fixed="right"
+                label="操作"
+                width="80">
+                <template slot-scope="scope">
+                  <el-button
+                    size="mini"
+                    type="primary"
+                    round
+                    @click="handleInfo(scope.$index, scope.row)">详细</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
           </template>
           <template v-if="item.i === '2'">
             <template slot="header">生长状态</template>
@@ -52,6 +106,8 @@
 import Vue from 'vue'
 import dayjs from "dayjs"
 import { GridLayout, GridItem } from 'vue-grid-layout'
+import api from "@/api";
+import dict from "@/libs/dict";
 Vue.component('grid-layout', GridLayout)
 Vue.component('grid-item', GridItem)
 export default {
@@ -67,6 +123,7 @@ export default {
     return {
       time: dayjs().format('hh:mm:ss A'),
       date: dayjs().format('MM 月 DD 日'),
+      warnData:[],
       layout: {
         layout: [
           { x: 0, y: 0, w: 2, h: 16, i: '0' },
@@ -118,6 +175,37 @@ export default {
     this.timeInterval = setInterval(() => {
       this.time = dayjs().format('hh:mm:ss A')
     }, 1000)
+    this.getWarnList();
+  },
+  methods: {
+    getWarnList() {
+      api.DATA_INFO_WARN()
+        .then(resp =>{
+          this.warnData = resp.list;
+        })
+        .catch(err =>{
+          console.log(err);
+        });
+    },
+    classesFormat(row) {
+      return dict.classes[row.classes];
+    },
+    statusFormat(row) {
+      return dict.status[row.growthStatus];
+    },
+    envFormat(row) {
+      return dict.env[row.growthEnv];
+    },
+    handleInfo(index, row) {
+      console.log(index, row);
+    },
+    //居中
+    cellStyle({row, column, rowIndex, columnIndex}){
+      return 'text-align:center';
+    },
+    headerCellStyle({row, rowIndex}){
+      return 'text-align:center';
+    },
   }
 }
 </script>

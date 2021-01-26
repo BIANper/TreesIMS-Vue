@@ -9,5 +9,21 @@ export default ({ service, request, faker, tools }) => ({
       method: 'get',
       params: pageVo
     })
+  },
+  DATA_INFO_TREE(id) {
+    return request({
+      url: '/tree/'+id,
+      method: 'get'
+    })
+  },
+  DATA_INFO_WARN() {
+    return request({
+      url: '/tree/care/warn',
+      method: 'get',
+      params: {
+        pageNum: 1,
+        pageSize: 10
+      }
+    })
   }
 })
