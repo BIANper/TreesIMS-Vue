@@ -25,7 +25,6 @@
                   <div>提交者：{{recentList.creator}}</div>
                 </el-timeline-item>
               </el-timeline>
-
             </div>
           </template>
           <template v-if="item.i === '1'">
@@ -142,18 +141,11 @@ export default {
       chartData: {
         env: {
           columns: ['env', 'total'],
-          rows: [
-            { 'env': '良好', 'total': 2343 },
-            { 'env': '中等', 'total': 214 },
-            { 'env': '差', 'total': 50 }
-          ]
+          rows: []
         },
         status: {
           columns: ['status', 'total'],
-          rows: [
-            { 'status': '正常株', 'total': 2343 },
-            { 'status': '衰弱株', 'total': 154 }
-          ]
+          rows: []
         }
       },
       chartExtend: {
@@ -170,10 +162,11 @@ export default {
     }, 1000)
     this.getWarnList();
     this.getRecentList();
+    this.getTotal();
   },
   methods: {
     getRecentList() {
-      api.DATA_INFO_Recent()
+      api.DATA_INFO_Recent({pageNum: 1, pageSize: 6})
         .then(resp =>{
           this.recentList = resp.list;
         })
@@ -185,6 +178,16 @@ export default {
       api.DATA_INFO_WARN()
         .then(resp =>{
           this.warnData = resp.list;
+        })
+        .catch(err =>{
+          console.log(err);
+        });
+    },
+    getTotal() {
+      api.DATA_INFO_CHART()
+        .then(resp =>{
+          this.chartData.status.rows = resp.status;
+          this.chartData.env.rows = resp.env;
         })
         .catch(err =>{
           console.log(err);

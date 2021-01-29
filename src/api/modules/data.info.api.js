@@ -16,14 +16,11 @@ export default ({ service, request, faker, tools }) => ({
       method: 'get'
     })
   },
-  DATA_INFO_Recent() {
+  DATA_INFO_Recent(pageVo) {
     return request({
       url: '/tree/log/recent',
       method: 'get',
-      params: {
-        pageNum: 1,
-        pageSize: 10
-      }
+      params: pageVo
     })
   },
   DATA_INFO_WARN() {
@@ -34,6 +31,12 @@ export default ({ service, request, faker, tools }) => ({
         pageNum: 1,
         pageSize: 10
       }
+    })
+  },
+  DATA_INFO_CHART() {
+    return request({
+      url: '/tree/care/chart',
+      method: 'get'
     })
   }
 })
