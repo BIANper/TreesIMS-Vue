@@ -9,5 +9,11 @@ export default ({ service, request, faker, tools }) => ({
       method: 'post',
       data: data
     })
+  },
+  SYS_USER_LOGOUT () {
+    return request({
+      url: '/auth/logout',
+      method: 'get'
+    })
   }
 })

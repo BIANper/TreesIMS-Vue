@@ -16,6 +16,16 @@ export default ({ service, request, faker, tools }) => ({
       method: 'get'
     })
   },
+  DATA_INFO_Recent() {
+    return request({
+      url: '/tree/log/recent',
+      method: 'get',
+      params: {
+        pageNum: 1,
+        pageSize: 10
+      }
+    })
+  },
   DATA_INFO_WARN() {
     return request({
       url: '/tree/care/warn',

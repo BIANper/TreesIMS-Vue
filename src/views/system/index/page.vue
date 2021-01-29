@@ -18,13 +18,14 @@
             <div style="margin-left: -40px;margin-top: 20px">
               <el-timeline>
                 <el-timeline-item
-                  v-for="(activity, index) in activities"
+                  v-for="(recentList, index) in recentList"
                   :key="index"
-                  :timestamp="activity.timestamp">
-                  <div>树木名：{{activity.content}}</div>
-                  <div>提交者：{{activity.research}}</div>
+                  :timestamp="recentList.createTime">
+                  <div>树木名：{{recentList.nameZh}}</div>
+                  <div>提交者：{{recentList.creator}}</div>
                 </el-timeline-item>
               </el-timeline>
+
             </div>
           </template>
           <template v-if="item.i === '1'">
@@ -104,10 +105,10 @@
 
 <script>
 import Vue from 'vue'
-import dayjs from "dayjs"
+import dayjs from 'dayjs'
 import { GridLayout, GridItem } from 'vue-grid-layout'
-import api from "@/api";
-import dict from "@/libs/dict";
+import api from '@/api'
+import dict from '@/libs/dict'
 Vue.component('grid-layout', GridLayout)
 Vue.component('grid-item', GridItem)
 export default {
@@ -160,15 +161,7 @@ export default {
           show: false
         }
       },
-      activities: [{
-        content: '枫杨',
-        research: '某某',
-        timestamp: '2021-01-1'
-      },{
-        content: '枫杨',
-        research: '某某',
-        timestamp: '2021-01-1'
-      }]
+      recentList: []
     };
   },
   mounted () {
@@ -176,8 +169,18 @@ export default {
       this.time = dayjs().format('hh:mm:ss A')
     }, 1000)
     this.getWarnList();
+    this.getRecentList();
   },
   methods: {
+    getRecentList() {
+      api.DATA_INFO_Recent()
+        .then(resp =>{
+          this.recentList = resp.list;
+        })
+        .catch(err =>{
+          console.log(err);
+        });
+    },
     getWarnList() {
       api.DATA_INFO_WARN()
         .then(resp =>{
@@ -200,12 +203,12 @@ export default {
       console.log(index, row);
     },
     //居中
-    cellStyle({row, column, rowIndex, columnIndex}){
-      return 'text-align:center';
+    cellStyle({ row, column, rowIndex, columnIndex }) {
+      return 'text-align:center'
     },
-    headerCellStyle({row, rowIndex}){
-      return 'text-align:center';
-    },
+    headerCellStyle({ row, rowIndex }) {
+      return 'text-align:center'
+    }
   }
 }
 </script>

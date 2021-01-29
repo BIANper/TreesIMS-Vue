@@ -19,11 +19,9 @@ export default {
       code= ''
     } = {}) {
       const res = await api.SYS_USER_LOGIN({ username, password, code })
-      // 设置 cookie 一定要存 uuid 和 token 两个 cookie
-      // 整个系统依赖这两个数据进行校验和存储
+      // 设置 cookie 一定要存 uuid
+      // 整个系统依赖这个数据进行校验和存储
       // uuid 是用户身份唯一标识 用户注册的时候确定 并且不可改变 不可重复
-      // token 代表用户当前登录状态 建议在网络请求中携带 token
-      // 如有必要 token 需要定时更新
       util.cookies.set('uuid', res.username)
       // 设置 vuex 用户信息
       await dispatch('d2admin/user/set', { name: res.username }, { root: true })
@@ -40,11 +38,11 @@ export default {
        * @description 注销
        */
       async function logout () {
-        // 删除cookie
-        util.cookies.remove('token')
         util.cookies.remove('uuid')
         // 清空 vuex 用户信息
         await dispatch('d2admin/user/set', {}, { root: true })
+        // 退出登录
+        await api.SYS_USER_LOGOUT()
         // 跳转路由
         router.push({ name: 'login' })
       }
