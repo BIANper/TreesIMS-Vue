@@ -20,22 +20,13 @@ export default {
       component: _import('info/search')
     },
     {
-      path: 'page2',
-      name: 'page2',
+      path: 'conserve',
+      name: 'conserve',
       meta: {
-        title: '页面 2',
+        title: '树木养护',
         auth: true
       },
-      component: _import('info/page2')
-    },
-    {
-      path: 'page3',
-      name: 'page3',
-      meta: {
-        title: '页面 3',
-        auth: true
-      },
-      component: _import('info/page3')
-    },
+      component: _import('info/conserve')
+    }
   ]
 }

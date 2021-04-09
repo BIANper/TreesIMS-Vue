@@ -45,5 +45,12 @@ export default ({ service, request, faker, tools }) => ({
       method: 'delete',
       params: treeId
     })
+  },
+  DATA_INFO_EDIT(tree) {
+    return request({
+      url: '/tree/',
+      method: 'delete',
+      params: tree
+    })
   }
 })

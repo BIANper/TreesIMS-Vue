@@ -18,6 +18,15 @@ export default {
         auth: true
       },
       component: _import('common/details')
+    },
+    {
+      path: 'edit/:id',
+      name: 'edit',
+      meta: {
+        title: '树木编辑',
+        auth: true
+      },
+      component: _import('common/edit')
     }
   ]
 }
