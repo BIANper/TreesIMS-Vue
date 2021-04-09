@@ -15,5 +15,11 @@ export default ({ service, request, faker, tools }) => ({
       url: '/auth/logout',
       method: 'get'
     })
-  }
+  },
+  SYS_USER_INFO (username) {
+    return request({
+      url: '/auth/info/'+username,
+      method: 'get'
+    })
+  },
 })

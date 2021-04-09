@@ -39,6 +39,10 @@
               :data="warnData"
               style="width: 100%">
               <el-table-column
+                prop="id"
+                v-if="false">
+              </el-table-column>
+              <el-table-column
                 prop="identifier"
                 label="编号"
                 width="110">
@@ -79,7 +83,7 @@
                     size="mini"
                     type="primary"
                     round
-                    @click="handleInfo(scope.$index, scope.row)">详细</el-button>
+                    @click="handleInfo(scope.row)">详细</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -202,8 +206,8 @@ export default {
     envFormat(row) {
       return dict.env[row.growthEnv];
     },
-    handleInfo(index, row) {
-      console.log(index, row);
+    handleInfo(row) {
+      this.$router.push('/common/details/'+row.id)
     },
     //居中
     cellStyle({ row, column, rowIndex, columnIndex }) {

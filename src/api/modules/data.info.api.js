@@ -1,13 +1,13 @@
 export default ({ service, request, faker, tools }) => ({
   /**
    * @description 请求树木数据页
-   * @param pageVo 分页信息
+   * @param searchData 搜索信息
    */
-  DATA_INFO_PAGE(pageVo) {
+  DATA_INFO_PAGE(searchData) {
     return request({
       url: '/tree/list/base',
       method: 'get',
-      params: pageVo
+      params: searchData
     })
   },
   DATA_INFO_TREE(id) {
@@ -37,6 +37,13 @@ export default ({ service, request, faker, tools }) => ({
     return request({
       url: '/tree/care/chart',
       method: 'get'
+    })
+  },
+  DATA_INFO_DELTREE(treeId) {
+    return request({
+      url: '/tree/',
+      method: 'delete',
+      params: treeId
     })
   }
 })

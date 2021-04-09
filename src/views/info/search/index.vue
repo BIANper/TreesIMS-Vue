@@ -9,6 +9,7 @@
       </el-form-item>
       <el-form-item label="级别:">
         <el-select size="small" v-model="searchData.classes" clearable placeholder="古树/名木">
+          <el-option label="全部" :value=null></el-option>
           <el-option label="名木" value="0"></el-option>
           <el-option label="一级古树" value="1"></el-option>
           <el-option label="二级古树" value="2"></el-option>
@@ -24,11 +25,15 @@
       :data="tableData"
       :cell-style='cellStyle'
       :header-cell-style='headerCellStyle'
-      :max-height="fullHeight-230"
+      :max-height="fullHeight-240"
       stripe
       border
       highlight-current-row
       style="width: 100%">
+      <el-table-column
+        prop="id"
+        v-if="false">
+      </el-table-column>
       <el-table-column
         fixed
         type="index"
@@ -126,7 +131,7 @@
             size="mini"
             type="primary"
             round
-            @click="handleInfo(scope.$index, scope.row)">详细</el-button>
+            @click="handleInfo(scope.row)">详细</el-button>
           <el-button
             size="mini"
             type="warning"
@@ -138,7 +143,7 @@
             type="danger"
             icon="el-icon-delete"
             circle
-            disabled
+            :disabled="userRole === 'Role_user'"
             @click="handleDelete(scope.$index, scope.row)"></el-button>
         </template>
       </el-table-column>
@@ -149,8 +154,8 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :page-sizes="[10, 20, 30]"
-      :page-size="pageData.pageSize"
-      :total="pageData.total">
+      :page-size="searchData.pageSize"
+      :total="total">
     </el-pagination>
   </d2-container>
 </template>
@@ -158,45 +163,55 @@
 <script>
 import api from '@/api'
 import dict from '@/libs/dict'
+import user from "@/store/modules/d2admin/modules/user";
+import {mapState} from "vuex";
+import info from "@/store/modules/tims/modules/info";
+import row from "element-ui/packages/row/src/row";
 export default {
   name: 'index',
+  computed: {
+    ...mapState('d2admin/user', [
+      'info'
+    ])
+  },
   data() {
     return {
+      userRole: null,
       loading: true,
       fullHeight: document.documentElement.clientHeight,
       searchData: {
-        identifier: '',
-        name: '',
-        classes: ''
-      },
-      tableData: [],
-      pageData: {
+        identifier: null,
+        name: null,
+        classes: null,
         pageNum: 1,
         pageSize: 20,
-        total: 0
-      }
+      },
+      tableData: [],
+      total: 0
     }
   },
   mounted() {
-    this.getTableData();
+    this.init();
   },
   methods: {
-    onSubmit() {
-      console.log(this.searchData)
-
+    init() {
+      this.userRole = this.info.authorities[0].authority;
+      this.getTableData();
     },
-    getTableData() {
+    onSubmit() {
+      this.getTableData();
+    },
+    async getTableData() {
       this.loading = true;
-      const {pageNum, pageSize} = this.pageData;
-      api.DATA_INFO_PAGE({pageNum, pageSize})
-        .then(resp =>{
-        this.tableData = resp.list;
-        this.pageData.total =  resp.total;
-        this.loading = false;
-      })
-        .catch(err =>{
-        console.log(err);
-      });
+      api.DATA_INFO_PAGE(this.searchData)
+        .then(resp => {
+          this.tableData = resp.list;
+          this.total = resp.total;
+          this.loading = false;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     classesFormat(row) {
       return dict.classes[row.classes];
@@ -207,21 +222,22 @@ export default {
     ownershipFormat(row) {
       return dict.ownership[row.ownership];
     },
-    handleInfo(index, row) {
-      console.log(page, row);
+    handleInfo(row) {
+      this.$router.push('/common/details/'+row.id)
     },
     handleEdit(index, row) {
-      console.log(page, row);
+      this.$router.push('/common/edit/'+row.id)
     },
-    handleDelete(index, row) {
-      console.log(page, row);
+    async handleDelete(index, row) {
+      await api.DATA_INFO_DELTREE({'treeIds': row.id});
+      await this.getTableData();
     },
     handleSizeChange(val) {
-      this.pageData.pageSize = val;
+      this.searchData.pageSize = val;
       this.getTableData();
     },
     handleCurrentChange(val) {
-      this.pageData.pageNum = val;
+      this.searchData.pageNum = val;
       this.getTableData();
     },
     //居中

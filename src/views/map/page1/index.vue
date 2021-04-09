@@ -1,7 +1,6 @@
 <template>
   <d2-container>
-    <template slot="header">Page 1 header</template>
-    Hello World
+    <el-amap class="amap-box" :vid="'amap-vue'"></el-amap>
   </d2-container>
 </template>
 
@@ -10,3 +9,5 @@ export default {
   name: 'page1'
 }
 </script>
+<style>
+</style>
