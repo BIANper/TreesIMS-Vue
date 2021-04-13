@@ -7,26 +7,26 @@ const _import = require('@/libs/util.import.' + process.env.NODE_ENV)
 export default {
   path: '/map',
   name: 'demo-plugins',
-  redirect: { name: 'page1' },
+  redirect: { name: 'mtop' },
   component: layoutHeaderAside,
   children: [
     {
-      path: 'page1',
-      name: 'page1',
+      path: 'mtop',
+      name: 'mtop',
       meta: {
-        title: '页面 1',
+        title: '图查属性',
         auth: true
       },
-      component: _import('map/page1')
+      component: _import('map/mtop')
     },
     {
-      path: 'page2',
-      name: 'page2',
+      path: 'ptom',
+      name: 'ptom',
       meta: {
-        title: '页面 2',
+        title: '属性查图',
         auth: true
       },
-      component: _import('map/page2')
+      component: _import('map/ptom')
     },
   ]
 }

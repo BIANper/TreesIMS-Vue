@@ -3,7 +3,7 @@ export default {
   title: '地图板块',
   icon: 'folder-o',
   children: [
-    { path: '/map/page1', title: '页面 1' },
-    { path: '/map/page2', title: '页面 2' },
+    { path: '/map/mtop', title: '图查属性' },
+    { path: '/map/ptom', title: '属性查图' },
   ]
 }

@@ -14,16 +14,25 @@ export default {
       path: 'search',
       name: 'search',
       meta: {
-        title: '树木检索',
+        title: '检索树木',
         auth: true
       },
       component: _import('info/search')
     },
     {
+      path: 'add',
+      name: 'add',
+      meta: {
+        title: '录入树木',
+        auth: true
+      },
+      component: _import('info/add')
+    },
+    {
       path: 'conserve',
       name: 'conserve',
       meta: {
-        title: '树木养护',
+        title: '养护树木',
         auth: true
       },
       component: _import('info/conserve')

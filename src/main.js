@@ -14,19 +14,17 @@ import { frameInRoutes } from '@/router/routes'
 //图表
 import VCharts from 'v-charts'
 
-import VueAMap from 'vue-amap'
+import AMap from 'vue-amap'
 
 // 核心插件
 Vue.use(d2Admin)
 
 Vue.use(VCharts)
 
-Vue.use(VueAMap);
-VueAMap.initAMapApiLoader({
+Vue.use(AMap);
+AMap.initAMapApiLoader({
   key: '975bd22c6ef31f5f6b6e3ef97ce15384',
   plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor'],
-  // 默认高德 sdk 版本为 1.4.4
-  v: '1.4.4'
 });
 
 new Vue({

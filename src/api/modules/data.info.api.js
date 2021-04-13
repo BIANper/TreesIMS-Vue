@@ -49,8 +49,35 @@ export default ({ service, request, faker, tools }) => ({
   DATA_INFO_EDIT(tree) {
     return request({
       url: '/tree/',
-      method: 'delete',
+      method: 'put',
       params: tree
     })
+  },
+  DATA_INFO_ADD(tree) {
+    return request({
+      url: '/addTree/',
+      method: 'post',
+      params: tree
+    })
+  },
+  DATA_INFO_AREA(id) {
+    return request({
+      url: '/area/' + id,
+      method: 'get'
+    })
+  },
+  DATA_INFO_GIS() {
+    return request({
+      url: '/map/gis/',
+      method: 'get'
+    })
+  },
+  DATA_INFO_GISSEARCH(searchVo) {
+    return request({
+      url: '/map/gis/search',
+      method: 'get',
+      params: searchVo
+    })
   }
+
 })

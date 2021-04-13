@@ -18,7 +18,7 @@
       <el-row>
         <el-col span="8">
           <el-form-item label="编号">
-            <el-input v-model="treeData.identifier" disabled></el-input>
+            <el-input v-model="treeData.identifier"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -63,36 +63,36 @@
           </el-form-item>
         </el-col>
         <el-col span="8">
-          <el-form-item label="真实树龄/年">
+          <el-form-item label="真实树龄">
             <el-input v-model="treeData.ageReal"></el-input>
           </el-form-item>
         </el-col>
         <el-col span="8">
-          <el-form-item label="估测树龄/年">
+          <el-form-item label="估测树龄">
             <el-input v-model="treeData.ageEstim"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col span="8">
-          <el-form-item label="树高/米">
+          <el-form-item label="树高">
             <el-input v-model="treeData.height"></el-input>
           </el-form-item>
         </el-col>
         <el-col span="8">
-          <el-form-item label="胸径/厘米">
+          <el-form-item label="胸径">
             <el-input v-model="treeData.bust"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col span="8">
-          <el-form-item label="东西冠幅/米">
+          <el-form-item label="东西冠幅">
             <el-input v-model="treeData.widthEw"></el-input>
           </el-form-item>
         </el-col>
         <el-col span="8">
-          <el-form-item label="南北冠幅/米">
+          <el-form-item label="南北冠幅">
             <el-input v-model="treeData.widthSn"></el-input>
           </el-form-item>
         </el-col>
@@ -157,7 +157,7 @@
       </el-row>
       <el-divider></el-divider>
       <el-form-item>
-        <el-button type="primary" @click="submit">保存</el-button>
+        <el-button type="primary" @click="submit">提交</el-button>
       </el-form-item>
     </el-form>
   </d2-container>
@@ -167,7 +167,7 @@
 import api from "@/api";
 import dict from "@/libs/dict";
 export default {
-  name: "index",
+  name: 'add',
   data() {
     return {
       treeData: {
@@ -199,25 +199,13 @@ export default {
       dict: dict
     }
   },
-  mounted() {
-    this.getTreeData();
-  },
   methods: {
-    async getTreeData() {
-      await api.DATA_INFO_TREE(this.$route.params.id)
-          .then(resp => {
-            this.treeData = resp;
-          })
-          .catch(err => {
-            this.$message.error('获取失败');
-          });
-    },
     submit() {
       console.log(this.treeData)
       this.treeData.id = this.$route.params.id
-      api.DATA_INFO_EDIT(this.treeData).then(
+      api.DATA_INFO_ADD(this.treeData).then(
           this.$message({
-            message: '修改成功',
+            message: '添加成功',
             type: 'success'
           })
       )
@@ -225,13 +213,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.el-form-item {
-  font-size: 18px;
-}
-.divider {
-  font-size: 18px;
-  font-weight: bold;
-}
-</style>

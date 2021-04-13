@@ -56,12 +56,12 @@
       </el-table-column>
       <el-table-column
         width="100"
-        prop="genusId"
+        prop="family"
         label="科">
       </el-table-column>
       <el-table-column
         width="100"
-        prop="genusId"
+        prop="genus"
         label="属">
       </el-table-column>
       <el-table-column
@@ -163,10 +163,7 @@
 <script>
 import api from '@/api'
 import dict from '@/libs/dict'
-import user from "@/store/modules/d2admin/modules/user";
 import {mapState} from "vuex";
-import info from "@/store/modules/tims/modules/info";
-import row from "element-ui/packages/row/src/row";
 export default {
   name: 'index',
   computed: {
@@ -214,13 +211,13 @@ export default {
         });
     },
     classesFormat(row) {
-      return dict.classes[row.classes];
+      return dict.classes[row.classes].v;
     },
     distributionFormat(row) {
       return row.distribution === 0 ? '群状' : row.distribution === 1 ? '散生' : "数据有误";
     },
     ownershipFormat(row) {
-      return dict.ownership[row.ownership];
+      return dict.ownership[row.ownership].v;
     },
     handleInfo(row) {
       this.$router.push('/common/details/'+row.id)

@@ -36,13 +36,13 @@
       <el-col span="8">
         <el-row :gutter="10">
           <el-col span="12" align="right"><el-tag size="mini" effect="plain">科</el-tag></el-col>
-          <el-col span="12" align="left">{{ treeData.genusId }}</el-col>
+          <el-col span="12" align="left">{{ treeData.family }}</el-col>
         </el-row>
       </el-col>
       <el-col span="8">
         <el-row :gutter="10">
           <el-col span="12" align="right"><el-tag size="mini" effect="plain">属</el-tag></el-col>
-          <el-col span="12" align="left">{{ treeData.genusId }}</el-col>
+          <el-col span="12" align="left">{{ treeData.genus }}</el-col>
         </el-row>
       </el-col>
     </el-row>
@@ -71,13 +71,13 @@
       <el-col span="8">
         <el-row :gutter="10">
           <el-col span="12" align="right"><el-tag size="mini" effect="plain">真实树龄</el-tag></el-col>
-          <el-col span="12" align="left">{{ treeData.ageReal }}</el-col>
+          <el-col span="12" align="left">{{ treeData.ageReal }}年</el-col>
         </el-row>
       </el-col>
       <el-col span="8">
         <el-row :gutter="10">
           <el-col span="12" align="right"><el-tag size="mini" effect="plain">估测树龄</el-tag></el-col>
-          <el-col span="12" align="left">{{ treeData.ageEstim }}</el-col>
+          <el-col span="12" align="left">{{ treeData.ageEstim }}年</el-col>
         </el-row>
       </el-col>
     </el-row>
@@ -85,13 +85,13 @@
       <el-col span="8">
         <el-row :gutter="10">
           <el-col span="12" align="right"><el-tag size="mini" effect="plain">树高</el-tag></el-col>
-          <el-col span="12" align="left">{{ treeData.height }}</el-col>
+          <el-col span="12" align="left">{{ treeData.height }}米</el-col>
         </el-row>
       </el-col>
       <el-col span="8">
         <el-row :gutter="10">
           <el-col span="12" align="right"><el-tag size="mini" effect="plain">胸径</el-tag></el-col>
-          <el-col span="12" align="left">{{ treeData.bust }}</el-col>
+          <el-col span="12" align="left">{{ treeData.bust }}厘米</el-col>
         </el-row>
       </el-col>
     </el-row>
@@ -99,13 +99,13 @@
       <el-col span="8">
         <el-row :gutter="10">
           <el-col span="12" align="right"><el-tag size="mini" effect="plain">东西冠幅</el-tag></el-col>
-          <el-col span="12" align="left">{{ treeData.widthEw }}</el-col>
+          <el-col span="12" align="left">{{ treeData.widthEw }}米</el-col>
         </el-row>
       </el-col>
       <el-col span="8">
         <el-row :gutter="10">
           <el-col span="12" align="right"><el-tag size="mini" effect="plain">南北冠幅</el-tag></el-col>
-          <el-col span="12" align="left">{{ treeData.widthSn }}</el-col>
+          <el-col span="12" align="left">{{ treeData.widthSn }}米</el-col>
         </el-row>
       </el-col>
     </el-row>
@@ -113,13 +113,13 @@
       <el-col span="8">
         <el-row :gutter="10">
           <el-col span="12" align="right"><el-tag size="mini" effect="plain">海拔</el-tag></el-col>
-          <el-col span="12" align="left">{{ treeData.altitude }}</el-col>
+          <el-col span="12" align="left">{{ treeData.altitude }}米</el-col>
         </el-row>
       </el-col>
       <el-col span="8">
         <el-row :gutter="10">
           <el-col span="12" align="right"><el-tag size="mini" effect="plain">坡向</el-tag></el-col>
-          <el-col span="12" align="left">{{ treeData.aspect }}</el-col>
+          <el-col span="12" align="left">{{ treeData.aspect }}向</el-col>
         </el-row>
       </el-col>
       <el-col span="8">
@@ -149,25 +149,19 @@
         </el-row>
       </el-col>
     </el-row>
-    <el-row>
-      <el-col span="8">
-        <el-row :gutter="10">
-          <el-col span="12" align="right"><el-tag size="mini" effect="plain">生长势</el-tag></el-col>
-          <el-col span="12" align="left">{{ treeData.growthStatus }}</el-col>
-        </el-row>
-      </el-col>
-      <el-col span="8">
-        <el-row :gutter="10">
-          <el-col span="12" align="right"><el-tag size="mini" effect="plain">生长环境</el-tag></el-col>
-          <el-col span="12" align="left">{{ treeData.growthEnv }}</el-col>
-        </el-row>
-      </el-col>
-    </el-row>
     <el-divider><div class="divider">快捷功能</div></el-divider>
     <el-row>
       <el-col span="8" align="middle">
         <el-button size="small" type="primary" plain @click="dialogTableVisible = true">养护信息</el-button>
         <el-dialog title="养护信息" :visible.sync="dialogTableVisible">
+          <el-row :gutter="10">
+            <el-col span="8" align="middle"><el-tag size="mini" effect="plain">生长势</el-tag></el-col>
+            <el-col span="14" align="left">{{ treeData.growthStatus }}</el-col>
+          </el-row>
+          <el-row :gutter="10">
+            <el-col span="8" align="middle"><el-tag size="mini" effect="plain">生长环境</el-tag></el-col>
+            <el-col span="14" align="left">{{ treeData.growthEnv }}</el-col>
+          </el-row>
           <el-row :gutter="10">
             <el-col span="8" align="middle"><el-tag size="mini" effect="plain">保护措施</el-tag></el-col>
             <el-col span="14" align="left">{{ treeData.protection }}</el-col>
@@ -211,14 +205,14 @@ export default {
       await api.DATA_INFO_TREE(this.$route.params.id)
           .then(resp => {
             this.treeData = resp;
-            this.treeData.classes = dict.classes[resp.classes];
+            this.treeData.classes = dict.classes[resp.classes].v;
             this.treeData.distribution = resp.distribution === 0 ? '群状' : row.distribution === 1 ? '散生' : "数据有误";
-            this.treeData.aspect = dict.aspect[resp.aspect];
-            this.treeData.slope = dict.slope[resp.slope];
-            this.treeData.position = dict.position[resp.position];
-            this.treeData.compactness = dict.compactness[resp.compactness];
-            this.treeData.growthStatus = dict.status[resp.growthStatus];
-            this.treeData.growthEnv = dict.env[resp.growthStatus];
+            this.treeData.aspect = dict.aspect[resp.aspect].v;
+            this.treeData.slope = dict.slope[resp.slope].v;
+            this.treeData.position = dict.position[resp.position].v;
+            this.treeData.compactness = dict.compactness[resp.compactness].v;
+            this.treeData.growthStatus = dict.status[resp.growthStatus].v;
+            this.treeData.growthEnv = dict.env[resp.growthEnv].v;
           })
           .catch(err => {
             console.log(err);

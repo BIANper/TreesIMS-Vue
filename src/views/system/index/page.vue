@@ -21,8 +21,10 @@
                   v-for="(recentList, index) in recentList"
                   :key="index"
                   :timestamp="recentList.createTime">
-                  <div>树木名：{{recentList.nameZh}}</div>
-                  <div>提交者：{{recentList.creator}}</div>
+                  <div v-if="recentList.action == 0">更新：{{recentList.nameZh}}({{ recentList.identifier }})</div>
+                  <div v-if="recentList.action == 1">添加：{{recentList.nameZh}}({{ recentList.identifier }})</div>
+                  <div v-if="recentList.action == 2">删除：{{recentList.nameZh}}({{ recentList.identifier }})</div>
+                  <div>操作者：{{recentList.creator}}</div>
                 </el-timeline-item>
               </el-timeline>
             </div>
@@ -198,13 +200,13 @@ export default {
         });
     },
     classesFormat(row) {
-      return dict.classes[row.classes];
+      return dict.classes[row.classes].v;
     },
     statusFormat(row) {
-      return dict.status[row.growthStatus];
+      return dict.status[row.growthStatus].v;
     },
     envFormat(row) {
-      return dict.env[row.growthEnv];
+      return dict.env[row.growthEnv].v;
     },
     handleInfo(row) {
       this.$router.push('/common/details/'+row.id)
