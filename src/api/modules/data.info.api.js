@@ -16,6 +16,13 @@ export default ({ service, request, faker, tools }) => ({
       method: 'get'
     })
   },
+  DATA_INFO_CARE(careData) {
+    return request({
+      url: '/care',
+      method: 'put',
+      params: careData
+    })
+  },
   DATA_INFO_Recent(pageVo) {
     return request({
       url: '/tree/log/recent',
@@ -69,6 +76,12 @@ export default ({ service, request, faker, tools }) => ({
   DATA_INFO_GIS() {
     return request({
       url: '/map/gis/',
+      method: 'get'
+    })
+  },
+  DATA_INFO_CENTER(cityId) {
+    return request({
+      url: '/map/area/center/' + cityId,
       method: 'get'
     })
   },

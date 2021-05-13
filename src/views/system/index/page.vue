@@ -1,11 +1,11 @@
 <template>
   <d2-container type="full" class="page">
-    <grid-layout
-      v-bind="layout">
-      <grid-item
-        v-for="(item, index) in layout.layout"
-        :key="index"
-        v-bind="item">
+<grid-layout
+  v-bind="layout">
+  <grid-item
+    v-for="(item, index) in layout.layout"
+    :key="index"
+    v-bind="item">
         <el-card shadow="hover" class="page_card">
           <template v-if="item.i === '0'">
             <template slot="header">
@@ -159,7 +159,8 @@ export default {
           show: false
         }
       },
-      recentList: []
+      recentList: [],
+      centerDialogVisible: false
     };
   },
   mounted () {

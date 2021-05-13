@@ -131,20 +131,7 @@
               size="mini"
               type="primary"
               round
-              @click="handleInfo(scope.row)">详细</el-button>
-          <el-button
-              size="mini"
-              type="warning"
-              icon="el-icon-edit"
-              circle
-              @click="handleEdit(scope.$index, scope.row)"></el-button>
-          <el-button
-              size="mini"
-              type="danger"
-              icon="el-icon-delete"
-              circle
-              :disabled="userRole === 'Role_user'"
-              @click="handleDelete(scope.$index, scope.row)"></el-button>
+              @click="handleUpdate(scope.row)">更新</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -157,6 +144,50 @@
         :page-size="searchData.pageSize"
         :total="total">
     </el-pagination>
+    <el-dialog :visible.sync="dialogFormVisible">
+      <el-form ref="form" :model="careData" label-width="80px">
+        <el-row>
+          <el-col span="8">
+            <el-form-item label="生长势">
+              <el-select v-model="careData.growthStatus" placeholder="请选择生长势">
+                <el-option v-for="ds in dict.status" :key="ds.k" :label="ds.v" :value="parseInt(ds.k)"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col span="8">
+            <el-form-item label="生长环境">
+              <el-select v-model="careData.growthEnv" placeholder="请选择生长环境">
+                <el-option v-for="de in dict.env" :key="de.k" :label="de.v" :value="parseInt(de.k)"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col span="8">
+            <el-form-item label="保护措施">
+              <el-input type="textarea" v-model="careData.protection"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col span="8">
+            <el-form-item label="复壮措施">
+              <el-input type="textarea" v-model="careData.rejuvenate"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col span="8">
+            <el-form-item>
+              <el-button type="primary" @click="submitCare">保存</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col span="16">
+            <el-form-item label="补充">
+              <el-input type="textarea" v-model="careData.description"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+    </el-dialog>
   </d2-container>
 </template>
 
@@ -176,6 +207,15 @@ export default {
   },
   data() {
     return {
+      careData: {
+        growthEnv: null,
+        growthStatus: null,
+        protection: "无",
+        rejuvenate: "无",
+        description: "无"
+      },
+      dict: dict,
+      dialogFormVisible: false,
       userRole: null,
       loading: true,
       fullHeight: document.documentElement.clientHeight,
@@ -186,7 +226,6 @@ export default {
         pageNum: 1,
         pageSize: 20,
       },
-      tableData: [],
       total: 0
     }
   },
@@ -201,6 +240,9 @@ export default {
     onSubmit() {
       this.getTableData();
     },
+    submitCare() {
+      api.DATA_INFO_TREE(this.careData);
+    },
     async getTableData() {
       this.loading = true;
       api.DATA_INFO_PAGE(this.searchData)
@@ -213,6 +255,15 @@ export default {
             console.log(err);
           });
     },
+    async getTreeData(id) {
+      await api.DATA_INFO_TREE(id)
+          .then(resp => {
+            this.careData = resp;
+          })
+          .catch(err => {
+            this.$message.error('获取失败');
+          });
+    },
     classesFormat(row) {
       return dict.classes[row.classes].v;
     },
@@ -222,15 +273,9 @@ export default {
     ownershipFormat(row) {
       return dict.ownership[row.ownership].v;
     },
-    handleInfo(row) {
-      this.$router.push('/common/details/'+row.id)
-    },
-    handleEdit(index, row) {
-      this.$router.push('/common/edit/'+row.id)
-    },
-    async handleDelete(index, row) {
-      await api.DATA_INFO_DELTREE({'treeIds': row.id});
-      await this.getTableData();
+    handleUpdate(row) {
+      this.getTreeData(row.id);
+      this.dialogFormVisible = true;
     },
     handleSizeChange(val) {
       this.searchData.pageSize = val;

@@ -39,15 +39,21 @@
 <script>
 import api from "@/api";
 import {AMapManager} from 'vue-amap'
+import {mapState} from "vuex";
 let amapManager = new AMapManager()
 export default {
+  computed: {
+    ...mapState('d2admin/user', [
+      'info'
+    ])
+  },
   name: 'ptom',
   data() {
     return {
       dialogFormVisible: false,
       zoom: 10,
       markers: [],
-      center: [114.1900000,30.3800000],
+      center: [116.413384, 39.910925],
       treeData: {},
       events: {
         click: (e) => {
@@ -66,26 +72,30 @@ export default {
   },
   methods: {
     init() {
-
-    },
-    onSubmit() {
-      this.markers = []
-      api.DATA_INFO_GISSEARCH(this.searchData)
+      api.DATA_INFO_CENTER(this.info.cityId)
           .then(resp => {
-            for (let i = 0; i < resp.length; i++) {
-              resp[i].key = i
-              this.markers.push(resp[i]);
-            }
+            console.log(resp,"resp")
+            this.center = resp
           })
     },
-    showInfo(id) {
-      api.DATA_INFO_TREE(id)
-          .then(resp => {
-                this.treeData = resp
-              }
-          )
-      this.dialogFormVisible = true
-    },
+onSubmit() {
+  this.markers.splice(0);
+  api.DATA_INFO_GISSEARCH(this.searchData)
+      .then(resp => {
+        for (let i = 0; i < resp.length; i++) {
+          resp[i].key = i
+          this.markers.push(resp[i]);
+        }
+      })
+},
+showInfo(id) {
+  api.DATA_INFO_TREE(id)
+      .then(resp => {
+            this.treeData = resp
+          }
+      )
+  this.dialogFormVisible = true
+},
     cellStyle({row, column, rowIndex, columnIndex}){
       return 'text-align:center';
     },
