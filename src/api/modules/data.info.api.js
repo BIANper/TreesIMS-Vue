@@ -16,11 +16,23 @@ export default ({ service, request, faker, tools }) => ({
       method: 'get'
     })
   },
+  DATA_INFO_CHILD(pid) {
+    return request({
+      url: '/map/area/child/'+pid,
+      method: 'get'
+    })
+  },
   DATA_INFO_CARE(careData) {
     return request({
-      url: '/care',
+      url: '/tree/care',
       method: 'put',
       params: careData
+    })
+  },
+  DATA_INFO_CAREGET(treeId) {
+    return request({
+      url: '/tree/care/' + treeId,
+      method: 'get'
     })
   },
   DATA_INFO_Recent(pageVo) {

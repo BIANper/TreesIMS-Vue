@@ -5,7 +5,13 @@
       <el-row>
         <el-col span="8">
           <el-form-item label="地区">
-            <el-input v-model="treeData.area"></el-input>
+            <el-select v-model="treeData.area" placeholder="请选择">
+              <el-option
+                  v-for="item in childList"
+                  :key="item.id"
+                  :value="item.name">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col span="8">
@@ -166,7 +172,14 @@
 <script>
 import api from "@/api";
 import dict from "@/libs/dict";
+import {mapState} from "vuex";
+import log from "@/libs/util.log";
 export default {
+  computed: {
+    ...mapState('d2admin/user', [
+      'info'
+    ])
+  },
   name: 'add',
   data() {
     return {
@@ -196,12 +209,18 @@ export default {
         growthEnv: null
       },
       dialogTableVisible: false,
-      dict: dict
+      dict: dict,
+      childList: []
     }
+  },
+  created() {
+    api.DATA_INFO_CHILD(this.info.cityId)
+        .then(resp => {
+          this.childList = resp
+        })
   },
   methods: {
     submit() {
-      console.log(this.treeData)
       this.treeData.id = this.$route.params.id
       api.DATA_INFO_ADD(this.treeData).then(
           this.$message({

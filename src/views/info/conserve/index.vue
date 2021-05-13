@@ -147,14 +147,14 @@
     <el-dialog :visible.sync="dialogFormVisible">
       <el-form ref="form" :model="careData" label-width="80px">
         <el-row>
-          <el-col span="8">
+          <el-col :span="8">
             <el-form-item label="生长势">
               <el-select v-model="careData.growthStatus" placeholder="请选择生长势">
                 <el-option v-for="ds in dict.status" :key="ds.k" :label="ds.v" :value="parseInt(ds.k)"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col span="8">
+          <el-col :span="8">
             <el-form-item label="生长环境">
               <el-select v-model="careData.growthEnv" placeholder="请选择生长环境">
                 <el-option v-for="de in dict.env" :key="de.k" :label="de.v" :value="parseInt(de.k)"></el-option>
@@ -163,24 +163,24 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col span="8">
+          <el-col :span="8">
             <el-form-item label="保护措施">
               <el-input type="textarea" v-model="careData.protection"></el-input>
             </el-form-item>
           </el-col>
-          <el-col span="8">
+          <el-col :span="8">
             <el-form-item label="复壮措施">
               <el-input type="textarea" v-model="careData.rejuvenate"></el-input>
             </el-form-item>
           </el-col>
-          <el-col span="8">
+          <el-col :span="8">
             <el-form-item>
               <el-button type="primary" @click="submitCare">保存</el-button>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col span="16">
+          <el-col :span='16'>
             <el-form-item label="补充">
               <el-input type="textarea" v-model="careData.description"></el-input>
             </el-form-item>
@@ -208,12 +208,14 @@ export default {
   data() {
     return {
       careData: {
+        id: undefined,
         growthEnv: null,
         growthStatus: null,
         protection: "无",
         rejuvenate: "无",
         description: "无"
       },
+      tableData: [],
       dict: dict,
       dialogFormVisible: false,
       userRole: null,
@@ -241,7 +243,15 @@ export default {
       this.getTableData();
     },
     submitCare() {
-      api.DATA_INFO_TREE(this.careData);
+      api.DATA_INFO_CARE(this.careData)
+          .then(resp => {
+            this.$message({
+              message: '修改成功',
+              type: 'success'
+            })
+            this.dialogFormVisible = false
+            this.getTableData()
+          })
     },
     async getTableData() {
       this.loading = true;
@@ -255,8 +265,8 @@ export default {
             console.log(err);
           });
     },
-    async getTreeData(id) {
-      await api.DATA_INFO_TREE(id)
+    async getCareData(id) {
+      await api.DATA_INFO_CAREGET(id)
           .then(resp => {
             this.careData = resp;
           })
@@ -274,7 +284,7 @@ export default {
       return dict.ownership[row.ownership].v;
     },
     handleUpdate(row) {
-      this.getTreeData(row.id);
+      this.getCareData(row.id);
       this.dialogFormVisible = true;
     },
     handleSizeChange(val) {

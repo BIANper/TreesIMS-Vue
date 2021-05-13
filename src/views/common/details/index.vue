@@ -152,27 +152,28 @@
     <el-divider><div class="divider">快捷功能</div></el-divider>
     <el-row>
       <el-col span="8" align="middle">
-        <el-button size="small" type="primary" plain @click="dialogTableVisible = true">养护信息</el-button>
+        <el-button size="small" type="primary" plain @click="clickCare">养护信息</el-button>
+
         <el-dialog title="养护信息" :visible.sync="dialogTableVisible">
           <el-row :gutter="10">
             <el-col span="8" align="middle"><el-tag size="mini" effect="plain">生长势</el-tag></el-col>
-            <el-col span="14" align="left">{{ treeData.growthStatus }}</el-col>
+            <el-col span="14" align="left">{{ dict.status[careData.growthStatus].v }}</el-col>
           </el-row>
           <el-row :gutter="10">
             <el-col span="8" align="middle"><el-tag size="mini" effect="plain">生长环境</el-tag></el-col>
-            <el-col span="14" align="left">{{ treeData.growthEnv }}</el-col>
+            <el-col span="14" align="left">{{ dict.env[careData.growthEnv].v }}</el-col>
           </el-row>
           <el-row :gutter="10">
             <el-col span="8" align="middle"><el-tag size="mini" effect="plain">保护措施</el-tag></el-col>
-            <el-col span="14" align="left">{{ treeData.protection }}</el-col>
+            <el-col span="14" align="left">{{ careData.protection }}</el-col>
           </el-row>
           <el-row :gutter="10">
             <el-col span="8" align="middle"><el-tag size="mini" effect="plain">复壮措施</el-tag></el-col>
-            <el-col span="14" align="left">{{ treeData.rejuvenate }}</el-col>
+            <el-col span="14" align="left">{{ careData.rejuvenate }}</el-col>
           </el-row>
           <el-row :gutter="10">
             <el-col span="8" align="middle"><el-tag size="mini" effect="plain">补充信息</el-tag></el-col>
-            <el-col span="14" align="left">{{ treeData.description }}</el-col>
+            <el-col span="14" align="left">{{ careData.description }}</el-col>
           </el-row>
         </el-dialog>
       </el-col>
@@ -193,12 +194,21 @@ export default {
   name: "index",
   data() {
     return {
+      dict: dict,
       treeData: {},
       dialogTableVisible: false,
+      careData: {}
     }
   },
   mounted() {
     this.getTreeData();
+    api.DATA_INFO_CAREGET(this.$route.params.id)
+        .then(resp => {
+          this.careData = resp;
+        })
+        .catch(err => {
+          this.$message.error('获取失败');
+        });
   },
   methods: {
     async getTreeData() {
@@ -221,6 +231,9 @@ export default {
     handleEdit() {
       this.$router.push('/common/edit/'+this.$route.params.id)
     },
+    clickCare() {
+      this.dialogTableVisible = true
+    }
   }
 }
 </script>
